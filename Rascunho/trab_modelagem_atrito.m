@@ -193,13 +193,13 @@ ys = yc(:,2) - yc(:,1);
 yo = x0(2) - x0(1);
 p0 = 1.03*(10^7);
 V0 = zeros(1201);
-V0 = V0 + 0.00868;
-A = 0.21;
+V0 = V0 + 0.01;
+A = 0.01969;
 V = A.*ys;
 n = 1.1;
 
 % F_a = p0*A*(1/(1-(ys./yo))).^n;
-F_a = p0*A.*(V0./(V0-V)).^n;
+F_a = p0*A.*(V0./(V0+V)).^n;
 
 figure(12)
 plot(tempo,real(F_a))
@@ -209,9 +209,9 @@ ylabel('Força (N)')
 
 rho_oleo = 878;
 A0 = A*(6.412/137.6);
-sigma = 0.3;
+zeta = 0.3;
 
-F1 = (1/2)*rho_oleo*(A^3).*ysponto.*abs(ysponto)/((sigma^2)*(A0^2));
+F1 = (1/2)*rho_oleo*(A^3).*ysponto.*abs(ysponto)/((zeta^2)*(A0^2));
 
 figure(56)
 plot(tempo, F1)
@@ -219,7 +219,10 @@ title('F_1')
 xlabel('Tempo (s)')
 ylabel('Força (N)')
 
-
+figure(1)
+plot(tempo, yc(:,1), "b")
+hold on
+plot(tempo, yc(:,2), "r")
 
 
  %% Plot dos gráficos
