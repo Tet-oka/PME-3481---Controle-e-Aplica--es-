@@ -13,7 +13,7 @@ Dmatrix = Expression1;
 
 sys = ss(Amatrix,Bmatrix,Cmatrix,Dmatrix);
 Pol  = pole(sys);
-P = [-1.49+79.59i,-1.49-79.59i,-1+8.68i,-1- 8.68i,-1+0.000i,-1+0.000i];
+P = [-1.49+79.59i,-1.49-79.59i,-1+8.68i,-1-  8.68i,-1+0.000i,-1+0.000i];
 K = place(Amatrix,Bmatrix,P);
 save('Kmatrix.mat', 'K');
 KS = ['K11 ='; "K12 ="; "K13 =";"K14 =";"K15 =";"K16 =";"K21 =";"K22 =";"K23 =";"K24 =";"K25 =";"K26 ="];

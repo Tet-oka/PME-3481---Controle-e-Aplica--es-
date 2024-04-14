@@ -53,11 +53,11 @@ x0c = [q1_0 q2_0 theta_0 q1p_0 q2p_0 thetap_0];
 x0 =  [q1_0 q2_0 theta_0 q3_0 q1p_0 q2p_0 thetap_0 q3p_0 pos_ini vel_ini];
 
 
-% [t, y] = ode45(@f, tempo, x0o, max_step);
+  [t, y] = ode45(@f, tempo, x0o, max_step);
 % [t, yL] = ode45(@fL, tempo, x0o, max_step);
 % [t, yLT] = ode45(@fLT, tempo, x0, max_step);
   [t, yAP] = ode45(@fAP,tempo, x0, max_step);
-% [t, yLLT] = ode45(@fLLT, tempo, x0, max_step);
+  [t, yLLT] = ode45(@fLLT, tempo, x0, max_step);
 
 
 %% Condições para a troca da ODE entre modelo incial e meio carro
@@ -165,59 +165,44 @@ x0 =  [q1_0 q2_0 theta_0 q3_0 q1p_0 q2p_0 thetap_0 q3p_0 pos_ini vel_ini];
 % xlabel('Tempo (s)')
 % a_q1 = -(((cr + ct).*y(:,4))/m) + (ct.*y(:,5))/m + (-(g*m) + kt.*(-y(:,1) + y(:,2)) + kr.*(-y(:,1) + y_ext + cr*yponto_ext))/m;
 % a_q2 = -0.5*(-2*g*M*Joz + S*rho*CL*Joz.*((y(:,8) + uv).*(y(:,8) + uv)) + 2*Joz*kt.*(y(:,1) - y(:,2)) + M*cos(phi)*Dgo*(Dgo*(-((2*g*M - S*rho*CL.*((y(:,8) + uv).*(y(:,8) + uv)))*urol*(sin(phi) + cos(phi).*y(:,3))) + 2*g*M*(cos(phi) - sin(phi).*y(:,3))) - S*rho*Dpo.*((y(:,8) + uv).*(y(:,8) + uv))*(cos(phi)*(CL + CD.*y(:,3)) + sin(phi)*(CD - CL.*y(:,3)))))/(M*(M*(cos(phi)*cos(phi))*(Dgo*Dgo) - Joz)) + (ct*Joz.*y(:,4))/(M*(-(M*(cos(phi)*cos(phi))*(Dgo*Dgo)) + Joz)) + (ct*Joz.*y(:,5))/(M*M*(cos(phi)*cos(phi))*(Dgo*Dgo) - M*Joz);
+%% Cálculo dos esforços dos atuadores e relacionados
+x = zeros(6, length(tempo));
+x(1,:) = yAP(:,1);
+x(2,:) = yAP(:,2);
+x(3,:) = yAP(:,3);
+x(4,:) = yAP(:,5);
+x(5,:) = yAP(:,6);
+x(6,:) = yAP(:,7);
+Fa = [];
+Ta = [];
+
+for n = 1:1:length(tempo)
+    n;
+    entrada = -K*x(:,n);
+    Fa = vertcat(Fa, entrada(1,:));
+    Ta = vertcat(Ta, entrada(2,:));
+end
+
+figure(101)
+plot(tempo, Fa/1000, "b")
+grid on
+grid minor
+legend('Força ativa')
+title('Força no atuador do trem de pouso')
+xlabel('Tempo (s)')
+ylabel('Força (KN)')
+
+figure(102)
+plot(tempo, Ta/1000, "b")
+grid on
+grid minor
+legend('Torque do elevador')
+title('Torque equivalente ao elevador')
+xlabel('Tempo (s)')
+ylabel('Torque (KN.m)')
+
 %% Plot dos gráficos
-
-% figure(1)
-% plot(tempo, 180/pi*yLT(:,3), "b")
-% hold on
-% plot(tempo, (180/pi*yL(:,3))+13, "r")
-% hold on
-% plot(tempo, (180/pi*y(:,3))+13, "g")
-% hold on
-% plot(tempo, (180/pi*yLLT(:,3)), "c")
-% hold on
-% plot(tempo, (180/pi*yAP(:,3)), "y")
-% grid on
-% grid minor
-% legend("Linearizado em Theta = 0 com CL/CD não lineares", 'Linearizado em Theta = 13', 'Original (não linear)', '"Linearizado em Theta = 0 com CL/CD lineares"')
-% legend('Theta = 0 Controlado')
-% title('Variação do ângulo de arfagem')
-% xlabel('Tempo (s)')
-% ylabel('Ângulo (°)')
-% 
-% figure(2)
-% plot(tempo, abs(((180/pi*y(:,3))+13) - 180/pi*yLLT(:,3)), "b")
-% grid on
-% grid minor
-% legend('"Linearizado em Theta = 0 com CL/CD lineares"')
-% title('Diferença na variação do ângulo de arfagem')
-% xlabel('Tempo (s)')
-% ylabel('Ângulo (°)')
-% 
-% figure(4)
-% plot(tempo, yLT(:,2), "b")
-% hold on
-% plot(tempo, yL(:,2), "r")
-% hold on
-% plot(tempo, y(:,2), "g")
-% grid on
-% grid minor
-% legend("Theta = 0", 'Theta = 13 Linear', 'Theta = 13 Não Linear')
-% title('Variação de q2')
-% xlabel('Tempo (s)')
-% ylabel('Deslocamento (m)')
-% 
-% figure(5)
-% plot(tempo, abs(y(:,2) -yLT(:,2)), "b")
-% hold on
-% plot(tempo, abs(y(:,2) -yL(:,2)), "r")
-% grid on
-% grid minor
-% legend("Theta = 0", 'Theta = 13 Linear')
-% title('Diferença na variação de q2')
-% xlabel('Tempo (s)')
-% ylabel('Deslocamento (m)')
-
+ 
 % figure(1)
 % plot(tempo, yc(:,1), "b")
 % hold on
@@ -234,34 +219,38 @@ x0 =  [q1_0 q2_0 theta_0 q3_0 q1p_0 q2p_0 thetap_0 q3p_0 pos_ini vel_ini];
 % ylabel('Posição (m)')
 % 
 % figure(2)
-% plot(tempo, yc(:,2), "b")
+% plot(tempo, (y(:,2)), "r")
 % hold on
-% plot(tempo, ycL(:,2), "r")
+% plot(tempo, (yLLT(:,2)), "c")
+% hold on
+% plot(tempo, (yAP(:,2)), "b")
 % grid on
 % grid minor
 % ylim([11/10*min2 11/10*max2]);
 % p = patch([0 0 T_sim*length(tempofr) T_sim*length(tempofr)],[11/10*min2 11/10*max2 11/10*max2 11/10*min2],'');
 % set(p,'FaceAlpha',0.1)
 % set(p,'EdgeColor','none')
-% legend("Não-linear", "Linear", "Free-roll")
+% legend('Original (não linear)', 'Linearizado em Theta = 0 ', 'Controlado Linear')
 % title('Variação de q2')
 % xlabel('Tempo (s)')
 % ylabel('Posição (m)')
 % 
 % figure(3)
-% plot(tempo, yc(:,3), "b")
+% plot(tempo, (180/pi*y(:,3))+13, "r")
 % hold on
-% plot(tempo, ycL(:,3), "r")
+% plot(tempo, (180/pi*yLLT(:,3)), "c")
+% hold on
+% plot(tempo, (180/pi*yAP(:,3)), "b")
 % grid on
 % grid minor
-% ylim([11/10*min3 11/10*max3]);
-% p = patch([0 0 T_sim*length(tempofr) T_sim*length(tempofr)],[11/10*min3 11/10*max3 11/10*max3 11/10*min3],'');
+% ylim([11/10*min2 11/10*max2]);
+% p = patch([0 0 T_sim*length(tempofr) T_sim*length(tempofr)],[11/10*min2 11/10*max2 11/10*max2 11/10*min2],'');
 % set(p,'FaceAlpha',0.1)
 % set(p,'EdgeColor','none')
-% legend("Não-linear", "Linear", "Free-roll")
-% title('Variação de theta em rad')
+% legend('Original (não linear)', 'Linearizado em Theta = 0 ', 'Controlado Linear')
+% title('Variação do ângulo de arfagem')
 % xlabel('Tempo (s)')
-% ylabel('Ângulo (rad)')
+% ylabel('Ângulo (°)')
 
 % Fs = 1/T_sim;            % Sampling frequency                    
 % T = 1/Fs;             % Sampling period       
