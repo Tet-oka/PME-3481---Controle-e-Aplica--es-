@@ -1,0 +1,17 @@
+load('Amatrix.mat')
+Amatrix = Expression1;
+load('Bmatrix.mat')
+Bmatrix = Expression1;
+load('Cmatrix.mat')
+Cmatrix = Expression1;
+load('Dmatrix.mat')
+Dmatrix = Expression1;
+
+sys = ss(Amatrix,Bmatrix,Cmatrix,Dmatrix);
+Pol  = pole(sys);
+P = [-1.49+79.59i,-1.49-79.59i,-0.34+8.68i,-0.34- 8.68i,-0.99+0.000i,-0.01+0.000i];
+K = place(Amatrix,Bmatrix,P);
+CT = table(K, N, S)
+CT(:,1) = ['K11 ='; "K12 ="; "K13 =";"K14 =";"K15 =";"K16 =";"K21 =";"K22 =";"K23 =";"K24 =";"K25 =";"K26 ="];
+
+save('Kmatrix.mat', 'K');
