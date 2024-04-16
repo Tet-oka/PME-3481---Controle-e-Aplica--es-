@@ -1,6 +1,6 @@
 
 %% Definição dos parâmetros iniciais da integração e cálculo das ODES
-t = 5; 
+t = 50; 
 T_sim = 1/100;
 tempo = 0:T_sim:t;
 %Passo máximo ODE
@@ -57,7 +57,7 @@ x0 =  [q1_0 q2_0 theta_0 q3_0 q1p_0 q2p_0 thetap_0 q3p_0 pos_ini vel_ini];
 % [t, yL] = ode45(@fL, tempo, x0o, max_step);
 % [t, yLT] = ode45(@fLT, tempo, x0, max_step);
   [t, yAP] = ode45(@fAP,tempo, x0, max_step);
-  [t, yLLT] = ode45(@fLLT, tempo, x0, max_step);
+ %[t, yLLT] = ode45(@fLLT, tempo, x0, max_step);
 
 
 %% Condições para a troca da ODE entre modelo incial e meio carro
@@ -218,39 +218,39 @@ ylabel('Torque (KN.m)')
 % xlabel('Tempo (s)')
 % ylabel('Posição (m)')
 % 
-% figure(2)
-% plot(tempo, (y(:,2)), "r")
-% hold on
-% plot(tempo, (yLLT(:,2)), "c")
-% hold on
-% plot(tempo, (yAP(:,2)), "b")
-% grid on
-% grid minor
-% ylim([11/10*min2 11/10*max2]);
-% p = patch([0 0 T_sim*length(tempofr) T_sim*length(tempofr)],[11/10*min2 11/10*max2 11/10*max2 11/10*min2],'');
-% set(p,'FaceAlpha',0.1)
-% set(p,'EdgeColor','none')
-% legend('Original (não linear)', 'Linearizado em Theta = 0 ', 'Controlado Linear')
-% title('Variação de q2')
-% xlabel('Tempo (s)')
-% ylabel('Posição (m)')
+figure(2)
+plot(tempo, (y(:,2)), "r")
+hold on
+%plot(tempo, (yLLT(:,2)), "c")
+%hold on
+plot(tempo, (yAP(:,2)), "b")
+grid on
+grid minor
+%ylim([11/10*min2 11/10*max2]);
+%p = patch([0 0 T_sim*length(tempofr) T_sim*length(tempofr)],[11/10*min2 11/10*max2 11/10*max2 11/10*min2],'');
+%set(p,'FaceAlpha',0.1)
+%set(p,'EdgeColor','none')
+legend('Original (não linear)', 'Linearizado em Theta = 0 ', 'Controlado Linear')
+title('Variação de q2')
+xlabel('Tempo (s)')
+ylabel('Posição (m)')
 % 
-% figure(3)
-% plot(tempo, (180/pi*y(:,3))+13, "r")
-% hold on
-% plot(tempo, (180/pi*yLLT(:,3)), "c")
-% hold on
-% plot(tempo, (180/pi*yAP(:,3)), "b")
-% grid on
-% grid minor
+figure(3)
+plot(tempo, (180/pi*y(:,3))+13, "r")
+hold on
+%plot(tempo, (180/pi*yLLT(:,3)), "c")
+%hold on
+plot(tempo, (180/pi*yAP(:,3)), "b")
+grid on
+grid minor
 % ylim([11/10*min2 11/10*max2]);
 % p = patch([0 0 T_sim*length(tempofr) T_sim*length(tempofr)],[11/10*min2 11/10*max2 11/10*max2 11/10*min2],'');
 % set(p,'FaceAlpha',0.1)
 % set(p,'EdgeColor','none')
-% legend('Original (não linear)', 'Linearizado em Theta = 0 ', 'Controlado Linear')
-% title('Variação do ângulo de arfagem')
-% xlabel('Tempo (s)')
-% ylabel('Ângulo (°)')
+legend('Original (não linear)', 'Linearizado em Theta = 0 ', 'Controlado Linear')
+title('Variação do ângulo de arfagem')
+xlabel('Tempo (s)')
+ylabel('Ângulo (°)')
 
 % Fs = 1/T_sim;            % Sampling frequency                    
 % T = 1/Fs;             % Sampling period       
@@ -754,8 +754,8 @@ function dydt = f(t, y_0)
     Dgo = 3.5;
     D_fo = 18.2;
     uv = 0;  %estoura em 3.9
-    y_ext = 0;
-    yponto_ext = 0;
+    y_ext = 0.05*sin(t);
+    yponto_ext = 0.05*cos(t);
     Joz = 16864415*M/88000;
     kr = 13600000;
     cr = 9700;
@@ -813,8 +813,8 @@ Dpo = 5;
 Dgo = 3.5;
 D_fo = 18.2;
 uv = 0;  %estoura em 3.9
-y_ext = 0;
-yponto_ext = 0;
+y_ext = 0.05*sin(t);
+yponto_ext = 0.05*cos(t);
 Joz = 16864415*M/88000;
 kr = 13600000;
 cr = 9700;
@@ -872,8 +872,8 @@ Dpo = 5;
 Dgo = 3.5;
 D_fo = 18.2;
 uv = 0;  %estoura em 3.9 
-y_ext = 0;
-yponto_ext = 0;
+y_ext = 0.05*sin(t);
+yponto_ext = 0.05*cos(t);
 Joz = 16864415*M/88000;
 kr = 13600000;
 cr = 9700;
@@ -917,8 +917,8 @@ Dpo = 5;
 Dgo = 3.5;
 D_fo = 18.2;
 uv = 0;  %estoura em 3.9
-y_ext = 0;
-yponto_ext = 0;
+y_ext = 0.05*sin(t);
+yponto_ext = 0.05*cos(t);
 Joz = 16864415*M/88000;
 kr = 13600000;
 cr = 9700;
@@ -962,8 +962,8 @@ function dyLTdt = fLT(t, yLT_0)
     Dgo = 3.5;
     D_fo = 18.2;
     uv = 0;  %estoura em 3.9 
-    y_ext = 0;
-    yponto_ext = 0;
+    y_ext = 0.05*sin(t);
+    yponto_ext = 0.05*cos(t);
     Joz = 16864415*M/88000;
     kr = 13600000;
     cr = 9700;
@@ -1006,8 +1006,8 @@ Dpo = 5;
 Dgo = 3.5;
 D_fo = 18.2;
 uv = 0;  %estoura em 3.9 
-y_ext = 0;
-yponto_ext = 0;
+y_ext = 0.05*sin(t);
+yponto_ext = 0.05*cos(t);
 Joz = 16864415*M/88000;
 kr = 13600000;
 cr = 9700;
@@ -1018,20 +1018,18 @@ k_tf = 5743400;
 c_tf = 51098;
 k_rf = 3400000;
 c_rf = 2*2425;  
-
-
-K11 =    -2.1925e+07     ; 
-K12 =     1.0299e+07     ; 
-K13 =          76738     ; 
-K14 =     2.4091e+05     ; 
-K15 =     6.4771e+05     ; 
-K16 =    -1.6924e+05     ; 
-K21 =     1.2715e+08     ; 
-K22 =     3.6455e+08     ; 
-K23 =     6.0105e+05     ; 
-K24 =     2.3786e+08     ; 
-K25 =     2.9515e+08     ; 
-K26 =     9.8598e+06     ; 
+    K11 =       -28.981     ; 
+    K12 =       -1872.8     ; 
+    K13 =    -1.056e+05     ; 
+    K14 =       0.55826     ; 
+    K15 =       -1907.4     ; 
+    K16 =    -1.058e+05     ; 
+    K21 =        6177.8     ; 
+    K22 =    3.9921e+05     ; 
+    K23 =    2.2509e+07     ; 
+    K24 =          -119     ; 
+    K25 =    4.0658e+05     ; 
+    K26 =    2.2553e+07     ; 
 
 dydt1 = yAP_0(5);
 dydt2 = yAP_0(6);
@@ -1063,8 +1061,8 @@ Dpo = 5;
 Dgo = 3.5;
 D_fo = 18.2;
 uv = 0;  %estoura em 3.9 
-y_ext = 0;
-yponto_ext = 0;
+y_ext = 0.15*sin(5*t);
+yponto_ext = 5*0.15*cos(5*t);
 Joz = 16864415*M/88000;
 kr = 13600000;
 cr = 9700;
