@@ -1,0 +1,6 @@
+    x(4);
+    x(5);
+    x(6);
+    -((cr*x(4))/m) + (Fa(t) - (kr + kt)*x(1) + kt*x(2) + kr*yext(t) + cr*Derivative(1)(yext)(t))/m;
+    -((Joz*Pi*Fa(t) + Joz*kt*Pi*(x(1) - x(2)) + 90*al*Joz*rho*S*((ul + uv)*(ul + uv))*x(3) + Dgo*M*cos(x(3))*(Dgo*g*M*Pi*(cos(x(3)) - urol*sin(x(3))) - Pi*Ta(t) - 90*rho*S*((ul + uv)*(ul + uv))*(al*Dpo*cos(x(3)) + (ad*Dpo - al*Dgo*urol)*sin(x(3)))*x(3)))/(M*Pi*(-Joz + Dgo*Dgo*M*(cos(x(3))*cos(x(3)))))) + (ct*Joz*x(4))/(Joz*M - Dgo*Dgo*(M*M)*(cos(x(3))*cos(x(3)))) + (ct*Joz*x(5))/(-(Joz*M) + Dgo*Dgo*(M*M)*(cos(x(3))*cos(x(3)))) + (Dgo*Joz*sin(x(3))*(x(6)*x(6)))/(Joz - Dgo*Dgo*M*(cos(x(3))*cos(x(3))));
+    (sec(x(3))*(Dgo*Pi*Fa(t) - Pi*sec(x(3))*Ta(t) + Dgo*g*M*Pi*(1 - urol*tan(x(3))) + Dgo*kt*Pi*x(1) - Dgo*kt*Pi*x(2) + 90*al*Dgo*rho*S*(ul*ul)*x(3) - 90*al*Dpo*rho*S*(ul*ul)*x(3) + 180*al*Dgo*rho*S*ul*uv*x(3) - 180*al*Dpo*rho*S*ul*uv*x(3) + 90*al*Dgo*rho*S*(uv*uv)*x(3) - 90*al*Dpo*rho*S*(uv*uv)*x(3) - 90*rho*S*(ad*Dpo - al*Dgo*urol)*((ul + uv)*(ul + uv))*tan(x(3))*x(3)))/(Pi*(Dgo*Dgo*M - Joz*(sec(x(3))*sec(x(3))))) + (ct*Dgo*sec(x(3))*x(4))/(Dgo*Dgo*M - Joz*(sec(x(3))*sec(x(3)))) + (ct*Dgo*cos(x(3))*x(5))/(Joz - Dgo*Dgo*M*(cos(x(3))*cos(x(3)))) + (x(6)*x(6))/(Cot(x(3)) - (2*Joz*Csc(2*x(3)))/(Dgo*Dgo*M));

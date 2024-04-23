@@ -167,7 +167,7 @@ x0 =  [q1_0 q2_0 theta_0 q3_0 q1p_0 q2p_0 thetap_0 q3p_0 pos_ini vel_ini];
 % a_q1 = -(((cr + ct).*y(:,4))/m) + (ct.*y(:,5))/m + (-(g*m) + kt.*(-y(:,1) + y(:,2)) + kr.*(-y(:,1) + y_ext + cr*yponto_ext))/m;
 % a_q2 = -0.5*(-2*g*M*Joz + S*rho*CL*Joz.*((y(:,8) + uv).*(y(:,8) + uv)) + 2*Joz*kt.*(y(:,1) - y(:,2)) + M*cos(phi)*Dgo*(Dgo*(-((2*g*M - S*rho*CL.*((y(:,8) + uv).*(y(:,8) + uv)))*urol*(sin(phi) + cos(phi).*y(:,3))) + 2*g*M*(cos(phi) - sin(phi).*y(:,3))) - S*rho*Dpo.*((y(:,8) + uv).*(y(:,8) + uv))*(cos(phi)*(CL + CD.*y(:,3)) + sin(phi)*(CD - CL.*y(:,3)))))/(M*(M*(cos(phi)*cos(phi))*(Dgo*Dgo) - Joz)) + (ct*Joz.*y(:,4))/(M*(-(M*(cos(phi)*cos(phi))*(Dgo*Dgo)) + Joz)) + (ct*Joz.*y(:,5))/(M*M*(cos(phi)*cos(phi))*(Dgo*Dgo) - M*Joz);
 %% Cálculo dos esforços dos atuadores e relacionados
-%Para fazer alocação de polos, Trocar Klqr para K
+
 K11 = Klqr(1,1);
 K12 = Klqr(1,2);
 K13 = Klqr(1,3);
@@ -181,6 +181,7 @@ K23 = Klqr(2,3);
 K24 = Klqr(2,4);
 K25 = Klqr(2,5);
 K26 = Klqr(2,6);
+
 
 Fa = -1*(K11*yAP(:,1)+K12*yAP(:,2)+K13*yAP(:,3)+K14*yAP(:,5)+K15*yAP(:,6)+K16*yAP(:,7));
 Ta = -1*(K21*yAP(:,1)+K22*yAP(:,2)+K23*yAP(:,3)+K24*yAP(:,5)+K25*yAP(:,6)+K26*yAP(:,7));
@@ -207,7 +208,7 @@ hold on
 plot(tempo, -(Tmax), "r")
 grid on
 grid minor
-legend('Torque necessário do elevador', "Torque máximo fornecido", "-Torque máximo fornecido")
+legend('Módulo do torque necessário do elevador', "Torque máximo fornecido", "-Torque máximo fornecido")
 title('Controle de torque')
 xlabel('Tempo (s)')
 ylabel('Torque (N.m)')
@@ -1057,18 +1058,18 @@ c_tf = 51098;
 k_rf = 3400000;
 c_rf = 2*2425;  
 
-    K11 =        -217.09     ; 
-    K12 =         -14029     ; 
-    K13 =    -7.9099e+05     ; 
-    K14 =         4.1818     ; 
-    K15 =         -14288     ; 
-    K16 =    -7.9253e+05     ; 
-    K21 =         9255.3     ; 
-    K22 =     5.9808e+05     ; 
-    K23 =     3.3722e+07     ; 
-    K24 =        -178.28     ; 
-    K25 =     6.0912e+05     ; 
-    K26 =     3.3788e+07     ; 
+   K11 =        -345.65     ; 
+    K12 =         -22336     ; 
+    K13 =    -1.2594e+02     ; 
+    K14 =         6.6582     ; 
+    K15 =         -22749     ; 
+    K16 =    -1.2619e+06     ; 
+    K21 =         9175.9     ; 
+    K22 =     5.9295e+05     ; 
+    K23 =     7*3.3433e+07    ; 
+    K24 =        -176.75     ; 
+    K25 =      6.039e+05     ; 
+    K26 =     3.3498e+02     ; 
 
 dydt1 = yAP_0(5);
 dydt2 = yAP_0(6);

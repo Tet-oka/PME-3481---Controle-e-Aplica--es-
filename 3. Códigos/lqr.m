@@ -12,31 +12,20 @@ load('Dmatrix.mat')
 Dmatrix = Expression1;
 
 sys = ss(Amatrix,Bmatrix,Cmatrix,Dmatrix);
-Pol  = pole(sys);
-P = [-1.49+50.59i,-1.49-50.59i,-1+8.68i,-1-8.68i,-1+0.000i,-0.8+0.000i];
-K = place(Amatrix,Bmatrix,P);
-save('Kmatrix.mat', 'K');
-KS = ['K11 ='; "K12 ="; "K13 =";"K14 =";"K15 =";"K16 =";"K21 =";"K22 =";"K23 =";"K24 =";"K25 =";"K26 ="];
-NUMS = [K(1,1); K(1,2); K(1,3); K(1,4);K(1,5);K(1,6);K(2,1);K(2,2);K(2,3);K(2,4);K(2,5);K(2,6)];
-FINAL = [";";";";";";";";";";";";";";";";";";";";";";";";];
-%PARA SUBSTITUIR NA ODE, COPIE E COLE A TABELA EM UM OUTRO SCRIPT QUALQUER E DÊ O COMANDO CTRL+F, Find
-%(") e Replace (). OU SEJA, SUBSTITUA AS ASPAS POR NADA (EXCLUA-AS DE UMA
-%VEZ). BASTA ENTÃO COPIAR DENTRO DA ODE CONTROLADA POR ALOCAÇÃO DE POLOS
-GANHOS = table(KS, NUMS, FINAL)
-
 
 Q = [1 0 0 0 0 0;
      0 1 0 0 0 0;
-     0 0 1 0 0 0; 
+     0 0 5 0 0 0; 
      0 0 0 1 0 0; 
      0 0 0 0 1 0; 
      0 0 0 0 0 1];
 
-R = [1 0;
+R = [5 0;
      0 1];
 
 [Klqr,S,Plqr] = lqr(sys,Q,R);
 KSlqr = ['K11 ='; "K12 ="; "K13 =";"K14 =";"K15 =";"K16 =";"K21 =";"K22 =";"K23 =";"K24 =";"K25 =";"K26 ="];
 NUMS = [Klqr(1,1); Klqr(1,2); Klqr(1,3); Klqr(1,4);Klqr(1,5);Klqr(1,6);Klqr(2,1);Klqr(2,2);Klqr(2,3);Klqr(2,4);Klqr(2,5);Klqr(2,6)];
+FINAL = [";";";";";";";";";";";";";";";";";";";";";";";";];
 GANHOSlqr = table(KSlqr, NUMS, FINAL)
 Plqr;
