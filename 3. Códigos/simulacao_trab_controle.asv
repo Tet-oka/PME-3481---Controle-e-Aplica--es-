@@ -1,6 +1,6 @@
 
 %% Definição dos parâmetros iniciais da integração e cálculo das ODES
-t = 8; 
+t = 5; 
 T_sim = 1/100;
 tempo = 0:T_sim:t;
 %Passo máximo ODE
@@ -168,23 +168,34 @@ x0 =  [q1_0 q2_0 theta_0 q3_0 q1p_0 q2p_0 thetap_0 q3p_0 pos_ini vel_ini];
 % a_q2 = -0.5*(-2*g*M*Joz + S*rho*CL*Joz.*((y(:,8) + uv).*(y(:,8) + uv)) + 2*Joz*kt.*(y(:,1) - y(:,2)) + M*cos(phi)*Dgo*(Dgo*(-((2*g*M - S*rho*CL.*((y(:,8) + uv).*(y(:,8) + uv)))*urol*(sin(phi) + cos(phi).*y(:,3))) + 2*g*M*(cos(phi) - sin(phi).*y(:,3))) - S*rho*Dpo.*((y(:,8) + uv).*(y(:,8) + uv))*(cos(phi)*(CL + CD.*y(:,3)) + sin(phi)*(CD - CL.*y(:,3)))))/(M*(M*(cos(phi)*cos(phi))*(Dgo*Dgo) - Joz)) + (ct*Joz.*y(:,4))/(M*(-(M*(cos(phi)*cos(phi))*(Dgo*Dgo)) + Joz)) + (ct*Joz.*y(:,5))/(M*M*(cos(phi)*cos(phi))*(Dgo*Dgo) - M*Joz);
 %% Cálculo dos esforços dos atuadores e relacionados
 %Para fazer alocação de polos, Trocar Klqr para K
-K11 = Klqr(1,1);
-K12 = Klqr(1,2);
-K13 = Klqr(1,3);
-K14 = Klqr(1,4);
-K15 = Klqr(1,5);
-K16 = Klqr(1,6);
+% K11 = Klqr(1,1);
+% K12 = Klqr(1,2);
+% K13 = Klqr(1,3);
+% K14 = Klqr(1,4);
+% K15 = Klqr(1,5);
+% K16 = Klqr(1,6);
+% 
+% K21 = Klqr(2,1);
+% K22 = Klqr(2,2);
+% K23 = Klqr(2,3);
+% K24 = Klqr(2,4);
+% K25 = Klqr(2,5);
+% K26 = Klqr(2,6);
 
-K21 = Klqr(2,1);
-K22 = Klqr(2,2);
-K23 = Klqr(2,3);
-K24 = Klqr(2,4);
-K25 = Klqr(2,5);
-K26 = Klqr(2,6);
-
-
-Fa = -1*(K11*yAP(:,1)+K12*yAP(:,2)+K13*yAP(:,3)+K14*yAP(:,5)+K15*yAP(:,6)+K16*yAP(:,7));
-Ta = -1*(K21*yAP(:,1)+K22*yAP(:,2)+K23*yAP(:,3)+K24*yAP(:,5)+K25*yAP(:,6)+K26*yAP(:,7));
+K11 =        -284.3    ; 
+    K12 =         -5160     ; 
+    K13 =    -7.4562e+03     ; 
+    K14 =         3.6209     ; 
+    K15 =         -9090     ; 
+    K16 =    -7.6314e+03     ; 
+    K21 =          52353     ; 
+    K22 =     2.6127e+03     ; 
+    K23 =     5.0393e+06      ; 
+    K24 =         -147.6     ; 
+    K25 =      5.262e+03     ; 
+    K26 =     5.1107e+07;
+Fa = -1*(K11*ycn(:,1)+K12*ycn(:,2)+K13*ycn(:,3)+K14*ycn(:,5)+K15*ycn(:,6)+K16*ycn(:,7));
+Ta = -1*(K21*ycn(:,1)+K22*ycn(:,2)+K23*ycn(:,3)+K24*ycn(:,5)+K25*ycn(:,6)+K26*ycn(:,7));
 
 AE = 32;
 DT = 24.7;
@@ -237,15 +248,15 @@ hold on
 % plot(tempo, (yLT(:,2)), "c")
 % hold on
 plot(tempo, (yAP(:,2)), "b")
-%hold on
-% plot(tempo, (ycn(:,2)), "g")
+hold on
+plot(tempo, (ycn(:,2)), "g")
 % grid on
 grid minor
 %ylim([11/10*min2 11/10*max2]);
 %p = patch([0 0 T_sim*length(tempofr) T_sim*length(tempofr)],[11/10*min2 11/10*max2 11/10*max2 11/10*min2],'');
 %set(p,'FaceAlpha',0.1)
 %set(p,'EdgeColor','none')
-legend('Original (não linear)','Controlado Linear')
+legend('Original (não linear)','Controlado Linear', 'Controlado Não Linear')
 title('Variação de q2')
 xlabel('Tempo (s)')
 ylabel('Posição (m)')
@@ -255,16 +266,16 @@ plot(tempo, (180/pi*y(:,3))+13, "r")
 hold on
 % plot(tempo, (180/pi*yLT(:,3)), "c")
 %hold on
-plot(tempo, (180/pi*yAP(:,3)), "b")
-%hold on
-%plot(tempo, (180/pi*ycn(:,3)), "g")
+plot(tempo, (180/pi*ycn(:,3)), "b")
+hold on
+plot(tempo, (180/pi*ycn(:,3)), "g")
 grid on
 grid minor
 %ylim([11/10*min2 11/10*max2]);
 %p = patch([0 0 T_sim*length(tempofr) T_sim*length(tempofr)],[11/10*min2 11/10*max2 11/10*max2 11/10*min2],'');
 %set(p,'FaceAlpha',0.1)
 %set(p,'EdgeColor','none')
-legend('Original (não linear)','Controlado Linear')
+legend('Original (não linear)','Controlado Linear', 'Controlado Não Linear')
 title('Variação do ângulo de arfagem')
 xlabel('Tempo (s)')
 ylabel('Ângulo (°)')
@@ -1057,7 +1068,7 @@ k_tf = 5743400;
 c_tf = 51098;
 k_rf = 3400000;
 c_rf = 2*2425;  
-    K11 =        -284.3    ; 
+K11 =        -284.3    ; 
     K12 =         -5160     ; 
     K13 =    -7.4562e+03     ; 
     K14 =         3.6209     ; 
@@ -1068,7 +1079,7 @@ c_rf = 2*2425;
     K23 =     5.0393e+06      ; 
     K24 =         -147.6     ; 
     K25 =      5.262e+03     ; 
-    K26 =     5.1107e+07      ; 
+    K26 =     5.1107e+07      ;
 
 
 if yAP_0(3) > 0
@@ -1118,32 +1129,31 @@ phi = 13*pi/180;
     Dpo = 5;
     Dgo = 3.5;
     D_fo = 18.2;
-    uv = 0;  %estoura em 3.9
+    uv = 0;  %estoura em 3.9 
     y_ext = 0;
     yponto_ext = 0;
     Joz = 16864415*M/88000;
     kr = 13600000;
     cr = 9700;
     kt = 11486800;              %kt = 954910;
-    ct = 102196;         %ct = 103870; 
+    ct = 103870;
     m_f = 1000; 
     k_tf = 5743400;
     c_tf = 51098;
     k_rf = 3400000;
-    c_rf = 2*2425;
-
-    K11 =       -3290.27     ; 
-    K12 =      -835300.2     ; 
-    K13 =    -4.7099e+02     ; 
-    K14 =       20000.49     ; 
-    K15 =        -8507.5     ; 
-    K16 =    -4.7191e+05     ; 
-    K21 =         9185.1     ; 
-    K22 =     3.9354e+04     ; 
-    K23 =     1.0466e+06     ; 
-    K24 =        -176.93     ; 
-    K25 =      6.045e+01     ; 
-    K26 =      2.531e+08     ;  
+    c_rf = 2*2425;  
+    K11 =        -284.3    ; 
+    K12 =         -5160     ; 
+    K13 =    -7.4562e+03     ; 
+    K14 =         3.6209     ; 
+    K15 =         -9090     ; 
+    K16 =    -7.6314e+03     ; 
+    K21 =          52353     ; 
+    K22 =     2.6127e+03     ; 
+    K23 =     5.0393e+06      ; 
+    K24 =         -147.6     ; 
+    K25 =      5.262e+03     ; 
+    K26 =     5.1107e+07      ;
 
     dycndt1 = ycnl_0(5);
     dycndt2 = ycnl_0(6);
