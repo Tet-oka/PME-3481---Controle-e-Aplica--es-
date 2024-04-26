@@ -805,8 +805,10 @@ function dydt = f(t, y_0)
     Joz = 16864415*M/88000;
     kr = 13600000;
     cr = 9700;
-    kt = 11486800;      %kt = 954910;
-    ct = 102196;        %ct = 103870; 
+    kt = 11486800;  % Constante de modelagem
+    %kt = 954910;   % Constante para controle
+    ct = 102196;    % Constante de modelagem       
+    %ct = 103870;   % Constante para controle
     m_f = 1000; 
     k_tf = 5743400;
     c_tf = 51098;
@@ -865,8 +867,10 @@ yponto_ext = 0;
 Joz = 16864415*M/88000;
 kr = 13600000;
 cr = 9700;
-kt = 11486800;      %kt = 954910;
-ct = 102196;        %ct = 103870; 
+kt = 11486800;  % Constante de modelagem
+%kt = 954910;   % Constante para controle
+ct = 102196;    % Constante de modelagem       
+%ct = 103870;   % Constante para controle
 m_f = 1000; 
 k_tf = 5743400;
 c_tf = 51098;
@@ -923,8 +927,10 @@ yponto_ext = 0;
 Joz = 16864415*M/88000;
 kr = 13600000;
 cr = 9700;
-kt = 11486800;      %kt = 954910;
-ct = 102196;        %ct = 103870; 
+kt = 11486800;  % Constante de modelagem
+%kt = 954910;   % Constante para controle
+ct = 102196;    % Constante de modelagem       
+%ct = 103870;   % Constante para controle
 m_f = 1000; 
 k_tf = 5743400;
 c_tf = 51098;
@@ -968,8 +974,10 @@ yponto_ext = 0;
 Joz = 16864415*M/88000;
 kr = 13600000;
 cr = 9700;
-kt = 11486800;      %kt = 954910;
-ct = 102196;        %ct = 103870;  
+kt = 11486800;  % Constante de modelagem
+%kt = 954910;   % Constante para controle
+ct = 102196;    % Constante de modelagem       
+%ct = 103870;   % Constante para controle 
 m_f = 1000; 
 k_tf = 5743400;
 c_tf = 51098;
@@ -1015,8 +1023,10 @@ function dyLTdt = fLT(t, yLT_0)
     Joz = 16864415*M/88000;
     kr = 13600000;
     cr = 9700;
-    kt = 11486800;      %kt = 954910;
-    ct = 102196;        %ct = 103870; 
+    kt = 11486800;  % Constante de modelagem
+    %kt = 954910;   % Constante para controle
+    ct = 102196;    % Constante de modelagem       
+    %ct = 103870;   % Constante para controle
     m_f = 1000; 
     k_tf = 5743400;
     c_tf = 51098;
@@ -1062,8 +1072,10 @@ yponto_ext = 0;
 Joz = 16864415*M/88000;
 kr = 13600000;
 cr = 9700;
-kt = 11486800;      %kt = 954910;
-ct = 102196;        %ct = 103870; 
+kt = 11486800;  % Constante de modelagem
+%kt = 954910;   % Constante para controle
+ct = 102196;    % Constante de modelagem       
+%ct = 103870;   % Constante para controle
 m_f = 1000; 
 k_tf = 5743400;
 c_tf = 51098;
@@ -1136,8 +1148,10 @@ phi = 13*pi/180;
     Joz = 16864415*M/88000;
     kr = 13600000;
     cr = 9700;
-    kt = 11486800;      %kt = 954910;
-    ct = 102196;        %ct = 103870; 
+    kt = 11486800;  % Constante de modelagem
+    %kt = 954910;   % Constante para controle
+    ct = 102196;    % Constante de modelagem       
+    %ct = 103870;   % Constante para controle
     m_f = 1000; 
     k_tf = 5743400;
     c_tf = 51098;
@@ -1191,8 +1205,10 @@ yponto_ext = 5*0.15*cos(5*t);
 Joz = 16864415*M/88000;
 kr = 13600000;
 cr = 9700;
-kt = 11486800;      %kt = 954910;
-ct = 102196;        %ct = 103870; 
+kt = 11486800;  % Constante de modelagem
+%kt = 954910;   % Constante para controle
+ct = 102196;    % Constante de modelagem       
+%ct = 103870;   % Constante para controle
 m_f = 1000; 
 k_tf = 5743400;
 c_tf = 51098;
