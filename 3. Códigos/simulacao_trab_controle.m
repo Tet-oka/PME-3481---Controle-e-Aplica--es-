@@ -1,7 +1,7 @@
 % Verificar qual constante está sendo usada nas simulações, a nova para
 % controle ou a mesma de modelagem.
 %% Definição dos parâmetros iniciais da integração e cálculo das ODES
-t = 6; 
+t = 12; 
 T_sim = 1/100;
 tempo = 0:T_sim:t;
 %Passo máximo ODE
@@ -29,7 +29,7 @@ k_tf = 5743400;
 c_tf = 51098;
 k_rf = 3400000;
 c_rf = 2*2425;
-uv = 0.7;
+uv = 0;
 
 
 %q1 e q2 definidos a partir da posição de equilíbrio estático do sistema em
@@ -183,18 +183,19 @@ x0 =  [q1_0 q2_0 theta_0 q3_0 q1p_0 q2p_0 thetap_0 q3p_0 pos_ini vel_ini];
 % K25 = Klqr(2,5);
 % K26 = Klqr(2,6);
 
-K11 =        -284.3    ; 
-    K12 =         -5160     ; 
-    K13 =    -7.4562e+03     ; 
-    K14 =         3.6209     ; 
-    K15 =         -9090     ; 
-    K16 =    -7.6314e+03     ; 
-    K21 =          52353     ; 
-    K22 =     2.6127e+03     ; 
-    K23 =     5.0393e+06      ; 
-    K24 =         -147.6     ; 
-    K25 =      5.262e+03     ; 
-    K26 =     5.1107e+07;
+K11 =        -284.3 ; 
+K12 =         -5160 ; 
+K13 =    -7.4562e+03; 
+K14 =         3.6209; 
+K15 =          -9090; 
+K16 =    -9.6314e+03; 
+K21 =          52353; 
+K22 =     2.6127e+03; 
+K23 =     25.0393e+06; 
+K24 =         -147.6; 
+K25 =      5.262e+03; 
+K26 =     2.107e+07;
+
 Fa = -1*(K11*ycn(:,1)+K12*ycn(:,2)+K13*ycn(:,3)+K14*ycn(:,5)+K15*ycn(:,6)+K16*ycn(:,7));
 Ta = -1*(K21*ycn(:,1)+K22*ycn(:,2)+K23*ycn(:,3)+K24*ycn(:,5)+K25*ycn(:,6)+K26*ycn(:,7));
 
@@ -245,18 +246,18 @@ ylabel('Torque (N.m)')
 % 
 figure(2)
 plot(tempo, (y(:,2)), "r")
-hold on
-% plot(tempo, (yLT(:,2)), "c")
 % hold on
+% plot(tempo, (yLT(:,2)), "c")
+hold on
 plot(tempo, (yAP(:,2)), "b")
 hold on
 plot(tempo, (ycn(:,2)), "g")
-% grid on
+grid on
 grid minor
-%ylim([11/10*min2 11/10*max2]);
-%p = patch([0 0 T_sim*length(tempofr) T_sim*length(tempofr)],[11/10*min2 11/10*max2 11/10*max2 11/10*min2],'');
-%set(p,'FaceAlpha',0.1)
-%set(p,'EdgeColor','none')
+% ylim([11/10*min2 11/10*max2]);
+% p = patch([0 0 T_sim*length(tempofr) T_sim*length(tempofr)],[11/10*min2 11/10*max2 11/10*max2 11/10*min2],'');
+% set(p,'FaceAlpha',0.1)
+% set(p,'EdgeColor','none')
 legend('Original (não linear)','Controlado Linear', 'Controlado Não Linear')
 title('Variação de q2')
 xlabel('Tempo (s)')
@@ -265,14 +266,14 @@ ylabel('Posição (m)')
 figure(3)
 plot(tempo, (180/pi*y(:,3))+13, "r")
 hold on
-% plot(tempo, (180/pi*yLT(:,3)), "c")
-%hold on
-plot(tempo, (180/pi*ycn(:,3)), "b")
+plot(tempo, (180/pi*yAP(:,3)), "c")
 hold on
-plot(tempo, (180/pi*ycn(:,3)), "g")
+plot(tempo, (180/pi*ycn(:,3)), "b")
+% hold on
+% plot(tempo, (180/pi*ycn(:,3)), "g")
 grid on
 grid minor
-%ylim([11/10*min2 11/10*max2]);
+% ylim([-5 15]);
 %p = patch([0 0 T_sim*length(tempofr) T_sim*length(tempofr)],[11/10*min2 11/10*max2 11/10*max2 11/10*min2],'');
 %set(p,'FaceAlpha',0.1)
 %set(p,'EdgeColor','none')
@@ -790,16 +791,15 @@ function dydt = f(t, y_0)
     m = 4000;
     WL = 285;
     S = M/WL; 
-   
-%     CL = (0.04264*((180/pi)*(y_0(3) + phi)))-0.0158;
-%     CD = (0.01394*((180/pi)*(y_0(3) + phi))) - 0.0248;
-    CL = (0.04264*((180/pi)*(y_0(3) + phi)));
-    CD = (0.01394*((180/pi)*(y_0(3) + phi)));
+    al = 0.0398;   
+    ad = 0.0088;
+    CL = (al*((180/pi)*(y_0(3) + phi)));
+    CD = (ad*((180/pi)*(y_0(3) + phi)));
     urol = (0.0041+0.000041*y_0(10))*C_pav;
     Dpo = 5;
     Dgo = 3.5;
     D_fo = 18.2;
-    uv = 0.7;  %estoura em 3.9
+    uv = 0;  %Começa a subir em 3.6
     y_ext = 0;
     yponto_ext = 0;
     Joz = 16864415*M/88000;
@@ -853,15 +853,15 @@ m = 4000;
 WL = 285;
 S = M/WL; 
 
-% CL = (0.04264*((180/pi)*(yL_0(3) + phi)))-0.0158;
-% CD = (0.01394*((180/pi)*(yL_0(3) + phi))) - 0.0248;
-CL = (0.04264*((180/pi)*(yL_0(3) + phi)));
-CD = (0.01394*((180/pi)*(yL_0(3) + phi))) ;
+al = 0.0398;   
+ad = 0.0088;
+CL = (al*((180/pi)*(yL_0(3) + phi)));
+CD = (ad*((180/pi)*(yL_0(3) + phi))) ;
 urol = (0.0041+0.000041*yL_0(10))*C_pav;
 Dpo = 5;
 Dgo = 3.5;
 D_fo = 18.2;
-uv = 0.7;  %estoura em 3.9
+uv = 0;  %Começa a subir em 3.6
 y_ext = 0;
 yponto_ext = 0;
 Joz = 16864415*M/88000;
@@ -914,14 +914,15 @@ m = 4000;
 WL = 285;
 S = M/WL; 
 C_pav = 1; 
-CL = 0.0398*180*(y_0(3)+ phi)/pi -0.00633;
-CL = (0.04264*((180/pi)*(y_0(3) + phi)))-0.0158;
-CD = (0.01394*((180/pi)*(y_0(3) + phi))) - 0.0248;
+al = 0.0398;   
+ad = 0.0088;
+CL = (al*((180/pi)*(y_0(3) + phi)));
+CD = (ad*((180/pi)*(y_0(3) + phi)));
 urol = (0.0041+0.000041*y_0(10))*C_pav;
 Dpo = 5;
 Dgo = 3.5;
 D_fo = 18.2;
-uv = 0.7;  %estoura em 3.9 
+uv = 0;  %Começa a subir em 3.6 
 y_ext = 0;
 yponto_ext = 0;
 Joz = 16864415*M/88000;
@@ -960,15 +961,13 @@ m = 4000;
 WL = 285;
 S = M/WL; 
 C_pav = 1; 
-CL = 0.0398*180*(yL_0(3)+ phi)/pi -0.00633;
-CL = (0.04264*((180/pi)*(yL_0(3) + phi)))-0.0158;
-CD = 0.0088*180*(yL_0(3)+ phi)/pi -0.00767;
-CD = (0.01394*((180/pi)*(yL_0(3) + phi))) - 0.0248;
+CL = (cl*((180/pi)*(yL_0(3) + phi)));
+CD = (cd*((180/pi)*(yL_0(3) + phi)));
 urol = (0.0041+0.000041*yL_0(10))*C_pav;
 Dpo = 5;
 Dgo = 3.5;
 D_fo = 18.2;
-uv = 0.7;  %estoura em 3.9
+uv = 0;  %Começa a subir em 3.6
 y_ext = 0;
 yponto_ext = 0;
 Joz = 16864415*M/88000;
@@ -1009,15 +1008,15 @@ function dyLTdt = fLT(t, yLT_0)
     WL = 285;
     S = M/WL; 
     C_pav = 1; 
-%     CL = (0.04264*((180/pi)*(yLT_0(3))))-0.0158;
-%     CD = (0.01394*((180/pi)*(yLT_0(3)))) - 0.0248;
-    CL = (0.04264*((180/pi)*(yLT_0(3))));
-    CD = (0.01394*((180/pi)*(yLT_0(3))));
+    al = 0.0398;   
+    ad = 0.0088;
+    CL = (al*((180/pi)*(yLT_0(3))));
+    CD = (ad*((180/pi)*(yLT_0(3))));
     urol = (0.0041+0.000041*yLT_0(10))*C_pav;
     Dpo = 5;
     Dgo = 3.5;
     D_fo = 18.2;
-    uv = 0.7;  %estoura em 3.9 
+    uv = 0;  %Começa a subir em 3.6 
     y_ext = 0;
     yponto_ext = 0;
     Joz = 16864415*M/88000;
@@ -1056,17 +1055,15 @@ m = 4000;
 WL = 285;
 S = M/WL; 
 C_pav = 1; 
-al = 0.04264;
-ad = 0.01394;
-% CL = (0.04264*((180/pi)*(yAP_0(3))))-0.0158;
-% CD = (0.01394*((180/pi)*(yAP_0(3)))) - 0.0248;
-CL = (0.04264*((180/pi)*(yAP_0(3))));
-CD = (0.01394*((180/pi)*(yAP_0(3))));
+al = 0.0398;   
+ad = 0.0088;
+CL = (al*((180/pi)*(yAP_0(3))));
+CD = (ad*((180/pi)*(yAP_0(3))));
 urol = (0.0041+0.000041*yAP_0(10))*C_pav;
 Dpo = 5;
 Dgo = 3.5;
 D_fo = 18.2;
-uv = 0.7;  %estoura em 3.9 
+uv = 0;  %Começa a subir em 3.6 
 y_ext = 0;
 yponto_ext = 0;
 Joz = 16864415*M/88000;
@@ -1081,18 +1078,18 @@ k_tf = 5743400;
 c_tf = 51098;
 k_rf = 3400000;
 c_rf = 2*2425;  
-K11 =        -284.3    ; 
-    K12 =         -5160     ; 
-    K13 =    -7.4562e+03     ; 
-    K14 =         3.6209     ; 
-    K15 =         -9090     ; 
-    K16 =    -7.6314e+03     ; 
-    K21 =          52353     ; 
-    K22 =     2.6127e+03     ; 
-    K23 =     5.0393e+06      ; 
-    K24 =         -147.6     ; 
-    K25 =      5.262e+03     ; 
-    K26 =     5.1107e+07;
+K11 =        -284.3 ; 
+K12 =         -5160 ; 
+K13 =    -7.4562e+03; 
+K14 =         3.6209; 
+K15 =          -9090; 
+K16 =    -9.6314e+03; 
+K21 =          52353; 
+K22 =     2.6127e+03; 
+K23 =     25.0393e+06; 
+K24 =         -147.6; 
+K25 =      5.262e+03; 
+K26 =     7.107e+07;
 
 
 if yAP_0(3) > 0
@@ -1131,18 +1128,17 @@ phi = 13*pi/180;
     m = 4000;
     WL = 285;
     S = M/WL; 
-   
-%     CL = (0.04264*((180/pi)*(y_0(3) + phi)))-0.0158;
-%     CD = (0.01394*((180/pi)*(y_0(3) + phi))) - 0.0248;
-    CL = (0.04264*((180/pi)*(ycnl_0(3))));
-    CD = (0.01394*((180/pi)*(ycnl_0(3))));
+    al = 0.0398;   
+    ad = 0.0088;
+    CL = (al*((180/pi)*(ycnl_0(3))));
+    CD = (ad*((180/pi)*(ycnl_0(3))));
     urol = (0.0041+0.000041*ycnl_0(10))*C_pav;
-    al = 0.04264;
-    ad = 0.01394;
+    al = 0.0398;
+    ad = 0.0088;
     Dpo = 5;
     Dgo = 3.5;
     D_fo = 18.2;
-    uv = 0.7;  %estoura em 3.9 
+    uv = 0;  %Começa a subir em 3.6 
     y_ext = 0;
     yponto_ext = 0;
     Joz = 16864415*M/88000;
@@ -1157,18 +1153,18 @@ phi = 13*pi/180;
     c_tf = 51098;
     k_rf = 3400000;
     c_rf = 2*2425;  
-    K11 =        -284.3    ; 
-    K12 =         -5160     ; 
-    K13 =    -7.4562e+03     ; 
-    K14 =         3.6209     ; 
-    K15 =         -9090     ; 
-    K16 =    -7.6314e+03     ; 
-    K21 =          52353     ; 
-    K22 =     2.6127e+03     ; 
-    K23 =     5.0393e+06      ; 
-    K24 =         -147.6     ; 
-    K25 =      5.262e+03     ; 
-    K26 =     5.1107e+07;
+K11 =        -284.3 ; 
+K12 =         -5160 ; 
+K13 =    -7.4562e+03; 
+K14 =         3.6209; 
+K15 =          -9090; 
+K16 =    -9.6314e+03; 
+K21 =          52353; 
+K22 =     2.6127e+03; 
+K23 =     25.0393e+06; 
+K24 =         -147.6; 
+K25 =      5.262e+03; 
+K26 =     7.107e+07;
 
     dycndt1 = ycnl_0(5);
     dycndt2 = ycnl_0(6);
@@ -1192,14 +1188,15 @@ m = 4000;
 WL = 285;
 S = M/WL; 
 C_pav = 1; 
-al = 0.04264;
-CL = (0.04264*((180/pi)*(yLLT_0(3))))-0.0158;
-CD = (0.01394*((180/pi)*(yLLT_0(3)))) - 0.0248;
+al = 0.0398;   
+ad = 0.0088; 
+CL = (al*((180/pi)*(yLLT_0(3))));
+CD = (ad*((180/pi)*(yLLT_0(3))));
 urol = (0.0041+0.000041*yLLT_0(10))*C_pav;
 Dpo = 5;
 Dgo = 3.5;
 D_fo = 18.2;
-uv = 0.7;  %estoura em 3.9 
+uv = 0;  %Começa a subir em 3.6 
 y_ext = 0.15*sin(5*t);
 yponto_ext = 5*0.15*cos(5*t);
 Joz = 16864415*M/88000;

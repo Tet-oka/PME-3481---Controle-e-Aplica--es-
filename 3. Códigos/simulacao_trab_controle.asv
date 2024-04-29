@@ -1,6 +1,7 @@
-
+% Verificar qual constante está sendo usada nas simulações, a nova para
+% controle ou a mesma de modelagem.
 %% Definição dos parâmetros iniciais da integração e cálculo das ODES
-t = 5; 
+t = 6; 
 T_sim = 1/100;
 tempo = 0:T_sim:t;
 %Passo máximo ODE
@@ -202,27 +203,27 @@ DT = 24.7;
 Tmax = 1.3*AE.*0.5.*(y(:,10)+uv).^2.*rho.*DT.*cos(y(:,3)) + 0.25.*AE.*0.5.*(y(:,10)+uv).^2.*rho.*DT.*sin(y(:,3));
 
 % 
-figure(101)
-plot(tempo, Fa/1000, "b")
-grid on
-grid minor
-legend('Força ativa')
-title('Força no atuador do trem de pouso')
-xlabel('Tempo (s)')
-ylabel('Força (KN)')
-
-figure(102)
-plot(tempo, (Ta), "b")
-hold on
-plot(tempo, (Tmax), "r")
-hold on
-plot(tempo, -(Tmax), "r")
-grid on
-grid minor
-legend('Torque necessário do elevador', "Torque máximo fornecido", "-Torque máximo fornecido")
-title('Controle de torque')
-xlabel('Tempo (s)')
-ylabel('Torque (N.m)')
+% figure(101)
+% plot(tempo, Fa/1000, "b")
+% grid on
+% grid minor
+% legend('Força ativa')
+% title('Força no atuador do trem de pouso')
+% xlabel('Tempo (s)')
+% ylabel('Força (KN)')
+% 
+% figure(102)
+% plot(tempo, (Ta), "b")
+% hold on
+% plot(tempo, (Tmax), "r")
+% hold on
+% plot(tempo, -(Tmax), "r")
+% grid on
+% grid minor
+% legend('Torque necessário do elevador', "Torque máximo fornecido", "-Torque máximo fornecido")
+% title('Controle de torque')
+% xlabel('Tempo (s)')
+% ylabel('Torque (N.m)')
 % 
 
 %% Plot dos gráficos
@@ -242,33 +243,33 @@ ylabel('Torque (N.m)')
 % xlabel('Tempo (s)')
 % ylabel('Posição (m)')
 % 
-figure(2)
-plot(tempo, (y(:,2)), "r")
-hold on
+% figure(2)
+% plot(tempo, (y(:,2)), "r")
+% hold on
 % plot(tempo, (yLT(:,2)), "c")
 % hold on
-plot(tempo, (yAP(:,2)), "b")
-hold on
-plot(tempo, (ycn(:,2)), "g")
+% plot(tempo, (yAP(:,2)), "b")
+% hold on
+% plot(tempo, (ycn(:,2)), "g")
 % grid on
-grid minor
-%ylim([11/10*min2 11/10*max2]);
-%p = patch([0 0 T_sim*length(tempofr) T_sim*length(tempofr)],[11/10*min2 11/10*max2 11/10*max2 11/10*min2],'');
-%set(p,'FaceAlpha',0.1)
-%set(p,'EdgeColor','none')
-legend('Original (não linear)','Controlado Linear', 'Controlado Não Linear')
-title('Variação de q2')
-xlabel('Tempo (s)')
-ylabel('Posição (m)')
+% grid minor
+% ylim([11/10*min2 11/10*max2]);
+% p = patch([0 0 T_sim*length(tempofr) T_sim*length(tempofr)],[11/10*min2 11/10*max2 11/10*max2 11/10*min2],'');
+% set(p,'FaceAlpha',0.1)
+% set(p,'EdgeColor','none')
+% legend('Original (não linear)','Controlado Linear', 'Controlado Não Linear')
+% title('Variação de q2')
+% xlabel('Tempo (s)')
+% ylabel('Posição (m)')
 % 
 figure(3)
 plot(tempo, (180/pi*y(:,3))+13, "r")
-hold on
+% hold on
 % plot(tempo, (180/pi*yLT(:,3)), "c")
-%hold on
-plot(tempo, (180/pi*ycn(:,3)), "b")
-hold on
-plot(tempo, (180/pi*ycn(:,3)), "g")
+% hold on
+% plot(tempo, (180/pi*ycn(:,3)), "b")
+% hold on
+% plot(tempo, (180/pi*ycn(:,3)), "g")
 grid on
 grid minor
 %ylim([11/10*min2 11/10*max2]);
@@ -790,8 +791,8 @@ function dydt = f(t, y_0)
     WL = 285;
     S = M/WL; 
    
-%     CL = (0.04264*((180/pi)*(y_0(3) + phi)))-0.0158;
-%     CD = (0.01394*((180/pi)*(y_0(3) + phi))) - 0.0248;
+    CL = (0.04264*((180/pi)*(y_0(3) + phi)))-0.0158;
+    CD = (0.01394*((180/pi)*(y_0(3) + phi))) - 0.0248;
     CL = (0.04264*((180/pi)*(y_0(3) + phi)));
     CD = (0.01394*((180/pi)*(y_0(3) + phi)));
     urol = (0.0041+0.000041*y_0(10))*C_pav;
@@ -804,8 +805,10 @@ function dydt = f(t, y_0)
     Joz = 16864415*M/88000;
     kr = 13600000;
     cr = 9700;
-    kt = 11486800;              %kt = 954910;
-    ct = 102196;         %ct = 103870; 
+    kt = 11486800;  % Constante de modelagem
+    %kt = 954910;   % Constante para controle
+    ct = 102196;    % Constante de modelagem       
+    %ct = 103870;   % Constante para controle
     m_f = 1000; 
     k_tf = 5743400;
     c_tf = 51098;
@@ -864,8 +867,10 @@ yponto_ext = 0;
 Joz = 16864415*M/88000;
 kr = 13600000;
 cr = 9700;
-kt = 11486800;              %kt = 954910;
-ct = 102196;         %ct = 103870; 
+kt = 11486800;  % Constante de modelagem
+%kt = 954910;   % Constante para controle
+ct = 102196;    % Constante de modelagem       
+%ct = 103870;   % Constante para controle
 m_f = 1000; 
 k_tf = 5743400;
 c_tf = 51098;
@@ -922,8 +927,10 @@ yponto_ext = 0;
 Joz = 16864415*M/88000;
 kr = 13600000;
 cr = 9700;
-kt = 11486800;              %kt = 954910;
-ct = 102196;         %ct = 103870; 
+kt = 11486800;  % Constante de modelagem
+%kt = 954910;   % Constante para controle
+ct = 102196;    % Constante de modelagem       
+%ct = 103870;   % Constante para controle
 m_f = 1000; 
 k_tf = 5743400;
 c_tf = 51098;
@@ -967,8 +974,10 @@ yponto_ext = 0;
 Joz = 16864415*M/88000;
 kr = 13600000;
 cr = 9700;
-kt = 11486800;              %kt = 954910;
-ct = 102196;         %ct = 103870; 
+kt = 11486800;  % Constante de modelagem
+%kt = 954910;   % Constante para controle
+ct = 102196;    % Constante de modelagem       
+%ct = 103870;   % Constante para controle 
 m_f = 1000; 
 k_tf = 5743400;
 c_tf = 51098;
@@ -1014,8 +1023,10 @@ function dyLTdt = fLT(t, yLT_0)
     Joz = 16864415*M/88000;
     kr = 13600000;
     cr = 9700;
-    kt = 11486800;              %kt = 954910;
-    ct = 102196;         %ct = 103870; 
+    kt = 11486800;  % Constante de modelagem
+    %kt = 954910;   % Constante para controle
+    ct = 102196;    % Constante de modelagem       
+    %ct = 103870;   % Constante para controle
     m_f = 1000; 
     k_tf = 5743400;
     c_tf = 51098;
@@ -1061,8 +1072,10 @@ yponto_ext = 0;
 Joz = 16864415*M/88000;
 kr = 13600000;
 cr = 9700;
-kt = 11486800;              %kt = 954910;
-ct = 103870;
+kt = 11486800;  % Constante de modelagem
+%kt = 954910;   % Constante para controle
+ct = 102196;    % Constante de modelagem       
+%ct = 103870;   % Constante para controle
 m_f = 1000; 
 k_tf = 5743400;
 c_tf = 51098;
@@ -1079,7 +1092,7 @@ K11 =        -284.3    ;
     K23 =     5.0393e+06      ; 
     K24 =         -147.6     ; 
     K25 =      5.262e+03     ; 
-    K26 =     5.1107e+07      ;
+    K26 =     5.1107e+07;
 
 
 if yAP_0(3) > 0
@@ -1135,8 +1148,10 @@ phi = 13*pi/180;
     Joz = 16864415*M/88000;
     kr = 13600000;
     cr = 9700;
-    kt = 11486800;              %kt = 954910;
-    ct = 103870;
+    kt = 11486800;  % Constante de modelagem
+    %kt = 954910;   % Constante para controle
+    ct = 102196;    % Constante de modelagem       
+    %ct = 103870;   % Constante para controle
     m_f = 1000; 
     k_tf = 5743400;
     c_tf = 51098;
@@ -1153,7 +1168,7 @@ phi = 13*pi/180;
     K23 =     5.0393e+06      ; 
     K24 =         -147.6     ; 
     K25 =      5.262e+03     ; 
-    K26 =     5.1107e+07      ;
+    K26 =     5.1107e+07;
 
     dycndt1 = ycnl_0(5);
     dycndt2 = ycnl_0(6);
@@ -1190,8 +1205,10 @@ yponto_ext = 5*0.15*cos(5*t);
 Joz = 16864415*M/88000;
 kr = 13600000;
 cr = 9700;
-kt = 11486800;              %kt = 954910;
-ct = 102196;         %ct = 103870; 
+kt = 11486800;  % Constante de modelagem
+%kt = 954910;   % Constante para controle
+ct = 102196;    % Constante de modelagem       
+%ct = 103870;   % Constante para controle
 m_f = 1000; 
 k_tf = 5743400;
 c_tf = 51098;
