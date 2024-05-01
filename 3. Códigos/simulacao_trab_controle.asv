@@ -1,7 +1,7 @@
 % Verificar qual constante está sendo usada nas simulações, a nova para
 % controle ou a mesma de modelagem.
 %% Definição dos parâmetros iniciais da integração e cálculo das ODES
-t = 6; 
+t = 4; 
 T_sim = 1/100;
 tempo = 0:T_sim:t;
 %Passo máximo ODE
@@ -183,18 +183,19 @@ x0 =  [q1_0 q2_0 theta_0 q3_0 q1p_0 q2p_0 thetap_0 q3p_0 pos_ini vel_ini];
 % K25 = Klqr(2,5);
 % K26 = Klqr(2,6);
 
-K11 =        -284.3    ; 
-    K12 =         -5160     ; 
-    K13 =    -7.4562e+03     ; 
-    K14 =         3.6209     ; 
-    K15 =         -9090     ; 
-    K16 =    -7.6314e+03     ; 
-    K21 =          52353     ; 
-    K22 =     2.6127e+03     ; 
-    K23 =     5.0393e+06      ; 
-    K24 =         -147.6     ; 
-    K25 =      5.262e+03     ; 
-    K26 =     5.1107e+07;
+    K11 =     -1.314e+07     ; 
+    K12 =     7.3375e+05     ; 
+    K13 =     4.4984e+05     ; 
+    K14 =          13047     ; 
+    K15 =    -2.0772e+05     ; 
+    K16 =     1.0348e+05     ; 
+    K21 =     -9.429e+08     ; 
+    K22 =     7.2058e+07     ; 
+    K23 =    -2.0043e+08     ; 
+    K24 =    -2.5574e+08     ; 
+    K25 =    -3.0032e+07     ; 
+    K26 =    -9.7075e+07     ; 
+
 Fa = -1*(K11*ycn(:,1)+K12*ycn(:,2)+K13*ycn(:,3)+K14*ycn(:,5)+K15*ycn(:,6)+K16*ycn(:,7));
 Ta = -1*(K21*ycn(:,1)+K22*ycn(:,2)+K23*ycn(:,3)+K24*ycn(:,5)+K25*ycn(:,6)+K26*ycn(:,7));
 
@@ -203,27 +204,27 @@ DT = 24.7;
 Tmax = 1.3*AE.*0.5.*(y(:,10)+uv).^2.*rho.*DT.*cos(y(:,3)) + 0.25.*AE.*0.5.*(y(:,10)+uv).^2.*rho.*DT.*sin(y(:,3));
 
 % 
-% figure(101)
-% plot(tempo, Fa/1000, "b")
-% grid on
-% grid minor
-% legend('Força ativa')
-% title('Força no atuador do trem de pouso')
-% xlabel('Tempo (s)')
-% ylabel('Força (KN)')
-% 
-% figure(102)
-% plot(tempo, (Ta), "b")
-% hold on
-% plot(tempo, (Tmax), "r")
-% hold on
-% plot(tempo, -(Tmax), "r")
-% grid on
-% grid minor
-% legend('Torque necessário do elevador', "Torque máximo fornecido", "-Torque máximo fornecido")
-% title('Controle de torque')
-% xlabel('Tempo (s)')
-% ylabel('Torque (N.m)')
+figure(101)
+plot(tempo, Fa/1000, "b")
+grid on
+grid minor
+legend('Força ativa')
+title('Força no atuador do trem de pouso')
+xlabel('Tempo (s)')
+ylabel('Força (KN)')
+
+figure(102)
+plot(tempo, (Ta), "b")
+hold on
+plot(tempo, (Tmax), "r")
+hold on
+plot(tempo, -(Tmax), "r")
+grid on
+grid minor
+legend('Torque necessário do elevador', "Torque máximo fornecido", "-Torque máximo fornecido")
+title('Controle de torque')
+xlabel('Tempo (s)')
+ylabel('Torque (N.m)')
 % 
 
 %% Plot dos gráficos
@@ -243,36 +244,36 @@ Tmax = 1.3*AE.*0.5.*(y(:,10)+uv).^2.*rho.*DT.*cos(y(:,3)) + 0.25.*AE.*0.5.*(y(:,
 % xlabel('Tempo (s)')
 % ylabel('Posição (m)')
 % 
-% figure(2)
-% plot(tempo, (y(:,2)), "r")
+figure(2)
+plot(tempo, (y(:,2)), "r")
 % hold on
 % plot(tempo, (yLT(:,2)), "c")
-% hold on
-% plot(tempo, (yAP(:,2)), "b")
-% hold on
-% plot(tempo, (ycn(:,2)), "g")
-% grid on
-% grid minor
+hold on
+plot(tempo, (yAP(:,2)), "b")
+hold on
+plot(tempo, (ycn(:,2)), "g")
+grid on
+grid minor
 % ylim([11/10*min2 11/10*max2]);
 % p = patch([0 0 T_sim*length(tempofr) T_sim*length(tempofr)],[11/10*min2 11/10*max2 11/10*max2 11/10*min2],'');
 % set(p,'FaceAlpha',0.1)
 % set(p,'EdgeColor','none')
-% legend('Original (não linear)','Controlado Linear', 'Controlado Não Linear')
-% title('Variação de q2')
-% xlabel('Tempo (s)')
-% ylabel('Posição (m)')
+legend('Original (não linear)','Controlado Linear', 'Controlado Não Linear')
+title('Variação de q2')
+xlabel('Tempo (s)')
+ylabel('Posição (m)')
 % 
 figure(3)
 plot(tempo, (180/pi*y(:,3))+13, "r")
-% hold on
-% plot(tempo, (180/pi*yLT(:,3)), "c")
-% hold on
-% plot(tempo, (180/pi*ycn(:,3)), "b")
+hold on
+plot(tempo, (180/pi*yAP(:,3)), "c")
+hold on
+plot(tempo, (180/pi*ycn(:,3)), "b")
 % hold on
 % plot(tempo, (180/pi*ycn(:,3)), "g")
 grid on
 grid minor
-%ylim([11/10*min2 11/10*max2]);
+% ylim([-5 15]);
 %p = patch([0 0 T_sim*length(tempofr) T_sim*length(tempofr)],[11/10*min2 11/10*max2 11/10*max2 11/10*min2],'');
 %set(p,'FaceAlpha',0.1)
 %set(p,'EdgeColor','none')
@@ -790,16 +791,15 @@ function dydt = f(t, y_0)
     m = 4000;
     WL = 285;
     S = M/WL; 
-   
-    CL = (0.04264*((180/pi)*(y_0(3) + phi)))-0.0158;
-    CD = (0.01394*((180/pi)*(y_0(3) + phi))) - 0.0248;
-    CL = (0.04264*((180/pi)*(y_0(3) + phi)));
-    CD = (0.01394*((180/pi)*(y_0(3) + phi)));
+    al = 0.0398;   
+    ad = 0.0088;
+    CL = (al*((180/pi)*(y_0(3) + phi)));
+    CD = (ad*((180/pi)*(y_0(3) + phi)));
     urol = (0.0041+0.000041*y_0(10))*C_pav;
     Dpo = 5;
     Dgo = 3.5;
     D_fo = 18.2;
-    uv = 0;  %estoura em 3.9
+    uv = 0;  %Começa a subir em 3.6
     y_ext = 0;
     yponto_ext = 0;
     Joz = 16864415*M/88000;
@@ -853,15 +853,15 @@ m = 4000;
 WL = 285;
 S = M/WL; 
 
-% CL = (0.04264*((180/pi)*(yL_0(3) + phi)))-0.0158;
-% CD = (0.01394*((180/pi)*(yL_0(3) + phi))) - 0.0248;
-CL = (0.04264*((180/pi)*(yL_0(3) + phi)));
-CD = (0.01394*((180/pi)*(yL_0(3) + phi))) ;
+al = 0.0398;   
+ad = 0.0088;
+CL = (al*((180/pi)*(yL_0(3) + phi)));
+CD = (ad*((180/pi)*(yL_0(3) + phi))) ;
 urol = (0.0041+0.000041*yL_0(10))*C_pav;
 Dpo = 5;
 Dgo = 3.5;
 D_fo = 18.2;
-uv = 0;  %estoura em 3.9
+uv = 0;  %Começa a subir em 3.6
 y_ext = 0;
 yponto_ext = 0;
 Joz = 16864415*M/88000;
@@ -914,14 +914,15 @@ m = 4000;
 WL = 285;
 S = M/WL; 
 C_pav = 1; 
-CL = 0.0398*180*(y_0(3)+ phi)/pi -0.00633;
-CL = (0.04264*((180/pi)*(y_0(3) + phi)))-0.0158;
-CD = (0.01394*((180/pi)*(y_0(3) + phi))) - 0.0248;
+al = 0.0398;   
+ad = 0.0088;
+CL = (al*((180/pi)*(y_0(3) + phi)));
+CD = (ad*((180/pi)*(y_0(3) + phi)));
 urol = (0.0041+0.000041*y_0(10))*C_pav;
 Dpo = 5;
 Dgo = 3.5;
 D_fo = 18.2;
-uv = 0;  %estoura em 3.9 
+uv = 0;  %Começa a subir em 3.6 
 y_ext = 0;
 yponto_ext = 0;
 Joz = 16864415*M/88000;
@@ -960,15 +961,13 @@ m = 4000;
 WL = 285;
 S = M/WL; 
 C_pav = 1; 
-CL = 0.0398*180*(yL_0(3)+ phi)/pi -0.00633;
-CL = (0.04264*((180/pi)*(yL_0(3) + phi)))-0.0158;
-CD = 0.0088*180*(yL_0(3)+ phi)/pi -0.00767;
-CD = (0.01394*((180/pi)*(yL_0(3) + phi))) - 0.0248;
+CL = (cl*((180/pi)*(yL_0(3) + phi)));
+CD = (cd*((180/pi)*(yL_0(3) + phi)));
 urol = (0.0041+0.000041*yL_0(10))*C_pav;
 Dpo = 5;
 Dgo = 3.5;
 D_fo = 18.2;
-uv = 0;  %estoura em 3.9
+uv = 0;  %Começa a subir em 3.6
 y_ext = 0;
 yponto_ext = 0;
 Joz = 16864415*M/88000;
@@ -1009,15 +1008,15 @@ function dyLTdt = fLT(t, yLT_0)
     WL = 285;
     S = M/WL; 
     C_pav = 1; 
-%     CL = (0.04264*((180/pi)*(yLT_0(3))))-0.0158;
-%     CD = (0.01394*((180/pi)*(yLT_0(3)))) - 0.0248;
-    CL = (0.04264*((180/pi)*(yLT_0(3))));
-    CD = (0.01394*((180/pi)*(yLT_0(3))));
+    al = 0.0398;   
+    ad = 0.0088;
+    CL = (al*((180/pi)*(yLT_0(3))));
+    CD = (ad*((180/pi)*(yLT_0(3))));
     urol = (0.0041+0.000041*yLT_0(10))*C_pav;
     Dpo = 5;
     Dgo = 3.5;
     D_fo = 18.2;
-    uv = 0;  %estoura em 3.9 
+    uv = 0;  %Começa a subir em 3.6 
     y_ext = 0;
     yponto_ext = 0;
     Joz = 16864415*M/88000;
@@ -1056,46 +1055,42 @@ m = 4000;
 WL = 285;
 S = M/WL; 
 C_pav = 1; 
-al = 0.04264;
-ad = 0.01394;
-% CL = (0.04264*((180/pi)*(yAP_0(3))))-0.0158;
-% CD = (0.01394*((180/pi)*(yAP_0(3)))) - 0.0248;
-CL = (0.04264*((180/pi)*(yAP_0(3))));
-CD = (0.01394*((180/pi)*(yAP_0(3))));
+al = 0.0398;   
+ad = 0.0088;
+CL = (al*((180/pi)*((180/pi)*yAP_0(3))));
+CD = (ad*((180/pi)*((180/pi)*yAP_0(3))));
+CL = (al*((180/pi)*(ycnl_0(3))));
+CD = (ad*((180/pi)*(ycnl_0(3))));
 urol = (0.0041+0.000041*yAP_0(10))*C_pav;
 Dpo = 5;
 Dgo = 3.5;
 D_fo = 18.2;
-uv = 0;  %estoura em 3.9 
+uv = 0;  %Começa a subir em 3.6 
 y_ext = 0;
 yponto_ext = 0;
 Joz = 16864415*M/88000;
 kr = 13600000;
 cr = 9700;
-kt = 11486800;  % Constante de modelagem
-%kt = 954910;   % Constante para controle
-ct = 102196;    % Constante de modelagem       
-%ct = 103870;   % Constante para controle
+kt = 954910;   % Constante para controle   
+ct = 103870;   % Constante para controle
 m_f = 1000; 
 k_tf = 5743400;
 c_tf = 51098;
 k_rf = 3400000;
 c_rf = 2*2425;  
-K11 =        -284.3    ; 
-    K12 =         -5160     ; 
-    K13 =    -7.4562e+03     ; 
-    K14 =         3.6209     ; 
-    K15 =         -9090     ; 
-    K16 =    -7.6314e+03     ; 
-    K21 =          52353     ; 
-    K22 =     2.6127e+03     ; 
-    K23 =     5.0393e+06      ; 
-    K24 =         -147.6     ; 
-    K25 =      5.262e+03     ; 
-    K26 =     5.1107e+07;
+    K11 =    -1.2693e+07     ; 
+    K12 =         -67689     ; 
+    K13 =     7.8321e+05     ; 
+    K14 =    -1.0451e+05     ; 
+    K15 =    -3.7741e+05     ; 
+    K16 =     2.4748e+05     ; 
+    K21 =    -6.4296e+08     ; 
+    K22 =     -2.727e+08     ; 
+    K23 =    -4.3649e+07     ; 
+    K24 =     -1.676e+08     ; 
+    K25 =    -1.5843e+08     ; 
+    K26 =     2.5155e+07     ; 
 
-
-if yAP_0(3) > 0
     dydt1 = yAP_0(5);
     dydt2 = yAP_0(6);
     dydt3 = yAP_0(7);
@@ -1107,19 +1102,6 @@ if yAP_0(3) > 0
     dydt9 = yAP_0(10);
     dydt10 = (-((M+m)*g - CL*S*rho*((yAP_0(10)+uv)^2)/2)*(urol) - CD*S*rho*((yAP_0(10)+uv)^2)/2)/(M+m);
     dyAPdt = [dydt1; dydt2; dydt3; dydt4; dydt5; dydt6; dydt7; dydt8; dydt9; dydt10];
-else
-    dydt1 = 0;
-    dydt2 = 0;
-    dydt3 = 0;
-    dydt4 = 0;
-    dydt5 = 0;
-    dydt6 = 0;
-    dydt7 = 0;
-    dydt8 = 0;
-    dydt9 = 0;
-    dydt10 = 0;
-    dyAPdt = [dydt1; dydt2; dydt3; dydt4; dydt5; dydt6; dydt7; dydt8; dydt9; dydt10];
-end
 end
 %
 function dycndt = fcn(t, ycnl_0)
@@ -1131,44 +1113,41 @@ phi = 13*pi/180;
     m = 4000;
     WL = 285;
     S = M/WL; 
-   
-%     CL = (0.04264*((180/pi)*(y_0(3) + phi)))-0.0158;
-%     CD = (0.01394*((180/pi)*(y_0(3) + phi))) - 0.0248;
-    CL = (0.04264*((180/pi)*(ycnl_0(3))));
-    CD = (0.01394*((180/pi)*(ycnl_0(3))));
+    al = 0.0398;   
+    ad = 0.0088;
+    CL = (al*((180/pi)*(ycnl_0(3))));
+    CD = (ad*((180/pi)*(ycnl_0(3))));
     urol = (0.0041+0.000041*ycnl_0(10))*C_pav;
-    al = 0.04264;
-    ad = 0.01394;
+    al = 0.0398;
+    ad = 0.0088;
     Dpo = 5;
     Dgo = 3.5;
     D_fo = 18.2;
-    uv = 0;  %estoura em 3.9 
+    uv = 0;  %Começa a subir em 3.6 
     y_ext = 0;
     yponto_ext = 0;
     Joz = 16864415*M/88000;
     kr = 13600000;
     cr = 9700;
-    kt = 11486800;  % Constante de modelagem
-    %kt = 954910;   % Constante para controle
-    ct = 102196;    % Constante de modelagem       
-    %ct = 103870;   % Constante para controle
+    kt = 954910;   % Constante para controle     
+    ct = 103870;   % Constante para controle
     m_f = 1000; 
     k_tf = 5743400;
     c_tf = 51098;
     k_rf = 3400000;
     c_rf = 2*2425;  
-    K11 =        -284.3    ; 
-    K12 =         -5160     ; 
-    K13 =    -7.4562e+03     ; 
-    K14 =         3.6209     ; 
-    K15 =         -9090     ; 
-    K16 =    -7.6314e+03     ; 
-    K21 =          52353     ; 
-    K22 =     2.6127e+03     ; 
-    K23 =     5.0393e+06      ; 
-    K24 =         -147.6     ; 
-    K25 =      5.262e+03     ; 
-    K26 =     5.1107e+07;
+    K11 =     -1.314e+07     ; 
+    K12 =     7.3375e+05     ; 
+    K13 =     4.4984e+05     ; 
+    K14 =          13047     ; 
+    K15 =    -2.0772e+05     ; 
+    K16 =     1.0348e+05     ; 
+    K21 =     -9.429e+08     ; 
+    K22 =     7.2058e+07     ; 
+    K23 =    -2.0043e+08     ; 
+    K24 =    -2.5574e+08     ; 
+    K25 =    -3.0032e+07     ; 
+    K26 =    -9.7075e+07     ; 
 
     dycndt1 = ycnl_0(5);
     dycndt2 = ycnl_0(6);
@@ -1192,14 +1171,15 @@ m = 4000;
 WL = 285;
 S = M/WL; 
 C_pav = 1; 
-al = 0.04264;
-CL = (0.04264*((180/pi)*(yLLT_0(3))))-0.0158;
-CD = (0.01394*((180/pi)*(yLLT_0(3)))) - 0.0248;
+al = 0.0398;   
+ad = 0.0088; 
+CL = (al*((180/pi)*(yLLT_0(3))));
+CD = (ad*((180/pi)*(yLLT_0(3))));
 urol = (0.0041+0.000041*yLLT_0(10))*C_pav;
 Dpo = 5;
 Dgo = 3.5;
 D_fo = 18.2;
-uv = 0;  %estoura em 3.9 
+uv = 0;  %Começa a subir em 3.6 
 y_ext = 0.15*sin(5*t);
 yponto_ext = 5*0.15*cos(5*t);
 Joz = 16864415*M/88000;

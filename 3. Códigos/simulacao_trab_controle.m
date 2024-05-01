@@ -1,7 +1,7 @@
 % Verificar qual constante está sendo usada nas simulações, a nova para
 % controle ou a mesma de modelagem.
 %% Definição dos parâmetros iniciais da integração e cálculo das ODES
-t = 12; 
+t = 5; 
 T_sim = 1/100;
 tempo = 0:T_sim:t;
 %Passo máximo ODE
@@ -183,18 +183,18 @@ x0 =  [q1_0 q2_0 theta_0 q3_0 q1p_0 q2p_0 thetap_0 q3p_0 pos_ini vel_ini];
 % K25 = Klqr(2,5);
 % K26 = Klqr(2,6);
 
-K11 =        -284.3 ; 
-K12 =         -5160 ; 
-K13 =    -7.4562e+03; 
-K14 =         3.6209; 
-K15 =          -9090; 
-K16 =    -9.6314e+03; 
-K21 =          52353; 
-K22 =     2.6127e+03; 
-K23 =     25.0393e+06; 
-K24 =         -147.6; 
-K25 =      5.262e+03; 
-K26 =     2.107e+07;
+   K11 =    -1.3725e+07     ; 
+    K12 =     1.1443e+06     ; 
+    K13 =     5.0974e+05     ; 
+    K14 =          69024     ; 
+    K15 =          41674     ; 
+    K16 =      1.196e+05     ; 
+    K21 =    -4.5653e+08     ; 
+    K22 =    -9.4356e+07     ; 
+    K23 =     3.1819e+08     ; 
+    K24 =      1.671e+07     ; 
+    K25 =    -3.3429e+07     ; 
+    K26 =     8.1579e+07     ; 
 
 Fa = -1*(K11*ycn(:,1)+K12*ycn(:,2)+K13*ycn(:,3)+K14*ycn(:,5)+K15*ycn(:,6)+K16*ycn(:,7));
 Ta = -1*(K21*ycn(:,1)+K22*ycn(:,2)+K23*ycn(:,3)+K24*ycn(:,5)+K25*ycn(:,6)+K26*ycn(:,7));
@@ -1069,30 +1069,27 @@ yponto_ext = 0;
 Joz = 16864415*M/88000;
 kr = 13600000;
 cr = 9700;
-kt = 11486800;  % Constante de modelagem
-%kt = 954910;   % Constante para controle
-ct = 102196;    % Constante de modelagem       
-%ct = 103870;   % Constante para controle
+kt = 954910;   % Constante para controle   
+ct = 103870;   % Constante para controle
 m_f = 1000; 
 k_tf = 5743400;
 c_tf = 51098;
 k_rf = 3400000;
 c_rf = 2*2425;  
-K11 =        -284.3 ; 
-K12 =         -5160 ; 
-K13 =    -7.4562e+03; 
-K14 =         3.6209; 
-K15 =          -9090; 
-K16 =    -9.6314e+03; 
-K21 =          52353; 
-K22 =     2.6127e+03; 
-K23 =     25.0393e+06; 
-K24 =         -147.6; 
-K25 =      5.262e+03; 
-K26 =     7.107e+07;
 
+   K11 =    -1.3725e+07     ; 
+    K12 =     1.1443e+06     ; 
+    K13 =     5.0974e+05     ; 
+    K14 =          69024     ; 
+    K15 =          41674     ; 
+    K16 =      1.196e+05     ; 
+    K21 =    -4.5653e+08     ; 
+    K22 =    -9.4356e+07     ; 
+    K23 =     3.1819e+08     ; 
+    K24 =      1.671e+07     ; 
+    K25 =    -3.3429e+07     ; 
+    K26 =     8.1579e+07     ; 
 
-if yAP_0(3) > 0
     dydt1 = yAP_0(5);
     dydt2 = yAP_0(6);
     dydt3 = yAP_0(7);
@@ -1104,19 +1101,6 @@ if yAP_0(3) > 0
     dydt9 = yAP_0(10);
     dydt10 = (-((M+m)*g - CL*S*rho*((yAP_0(10)+uv)^2)/2)*(urol) - CD*S*rho*((yAP_0(10)+uv)^2)/2)/(M+m);
     dyAPdt = [dydt1; dydt2; dydt3; dydt4; dydt5; dydt6; dydt7; dydt8; dydt9; dydt10];
-else
-    dydt1 = 0;
-    dydt2 = 0;
-    dydt3 = 0;
-    dydt4 = 0;
-    dydt5 = 0;
-    dydt6 = 0;
-    dydt7 = 0;
-    dydt8 = 0;
-    dydt9 = 0;
-    dydt10 = 0;
-    dyAPdt = [dydt1; dydt2; dydt3; dydt4; dydt5; dydt6; dydt7; dydt8; dydt9; dydt10];
-end
 end
 %
 function dycndt = fcn(t, ycnl_0)
@@ -1144,27 +1128,25 @@ phi = 13*pi/180;
     Joz = 16864415*M/88000;
     kr = 13600000;
     cr = 9700;
-    kt = 11486800;  % Constante de modelagem
-    %kt = 954910;   % Constante para controle
-    ct = 102196;    % Constante de modelagem       
-    %ct = 103870;   % Constante para controle
+    kt = 954910;   % Constante para controle     
+    ct = 103870;   % Constante para controle
     m_f = 1000; 
     k_tf = 5743400;
     c_tf = 51098;
     k_rf = 3400000;
     c_rf = 2*2425;  
-K11 =        -284.3 ; 
-K12 =         -5160 ; 
-K13 =    -7.4562e+03; 
-K14 =         3.6209; 
-K15 =          -9090; 
-K16 =    -9.6314e+03; 
-K21 =          52353; 
-K22 =     2.6127e+03; 
-K23 =     25.0393e+06; 
-K24 =         -147.6; 
-K25 =      5.262e+03; 
-K26 =     7.107e+07;
+   K11 =    -1.3725e+07     ; 
+    K12 =     1.1443e+06     ; 
+    K13 =     5.0974e+05     ; 
+    K14 =          69024     ; 
+    K15 =          41674     ; 
+    K16 =      1.196e+05     ; 
+    K21 =    -4.5653e+08     ; 
+    K22 =    -9.4356e+07     ; 
+    K23 =     3.1819e+08     ; 
+    K24 =      1.671e+07     ; 
+    K25 =    -3.3429e+07     ; 
+    K26 =     8.1579e+07     ; 
 
     dycndt1 = ycnl_0(5);
     dycndt2 = ycnl_0(6);
