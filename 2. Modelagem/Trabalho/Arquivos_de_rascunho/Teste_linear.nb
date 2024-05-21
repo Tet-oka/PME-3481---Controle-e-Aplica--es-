@@ -1,0 +1,46 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 13.2' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[       997,         36]
+NotebookOptionsPosition[       642,         22]
+NotebookOutlinePosition[      1049,         38]
+CellTagsIndexPosition[      1006,         35]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[""], "Code",ExpressionUUID->"4f8c6616-0caa-4b21-9b37-6524b43794d4"]
+},
+WindowSize->{1024.5, 513.75},
+WindowMargins->{{-6, Automatic}, {Automatic, -6}},
+FrontEndVersion->"13.2 for Microsoft Windows (64-bit) (January 30, 2023)",
+StyleDefinitions->"Default.nb",
+ExpressionUUID->"83139b41-e177-411e-b6ef-dc5a8d5b6310"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[558, 20, 80, 0, 50, "Code",ExpressionUUID->"4f8c6616-0caa-4b21-9b37-6524b43794d4"]
+}
+]
+*)
+
+(* End of internal cache information *)
+
