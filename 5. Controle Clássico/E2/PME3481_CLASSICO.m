@@ -36,6 +36,8 @@ Dft = [0 0; 0 0];
 numTT = num(1,:);
 tf_q = tf(numTT,den);
 G_p = tf_q;
+pole(G_p)
+zero(G_p)
 
 
 
@@ -53,6 +55,10 @@ Kp = result(1);
 Ki = result(2);
 Kd = result(3);
 
+Kp = 10.33*10^8;
+Ki = 0;
+Kd = 0;
+
 s = tf([1,0],[1]);
 t_d = Kd/Kp;
 N=10000; 
@@ -63,7 +69,7 @@ p = pole(T)%Polos em malha fechada sem filtro
 
 G_f = tf([Ki],[Kd,Kp,Ki]); %Funcao de transferencia do filtro (pre-compensador)
 T_f = series(G_f,T); %Funcao de transferencia do sistema em malha fechada com o filtro
-p_f = pole(T_f);%Polos em malha fechada com o filtro
+p_f = pole(T_f)%Polos em malha fechada com o filtro
 
 Frt = feedback(G_c,G_p,-1); %Funcao de transferencia entre entrada de controle e referencia
 Frt_f = series(G_f,Frt);% Com filtro
@@ -80,8 +86,8 @@ q3_ref = 13;
 
 clf(figure(1))
 figure(1)
-plot(t,q3_ref*q3, "b") 
-hold on
+%plot(t,q3_ref*q3, "b") 
+%hold on
 plot(t,q3_ref*q3f, "r") 
 hold on
 plot(t,q3_ref*ones(length(t),1), "g") 
