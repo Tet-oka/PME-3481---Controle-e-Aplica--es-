@@ -81,8 +81,8 @@ x0 =  [q1_0 q2_0 theta_0 q1p_0 q2p_0 thetap_0];
 
 
 %% Perturbações
-Amp = 0.05; %Amplitude da oscilação senoidal da pista
-freq = 7.14; %Frequência da amplitude senoidal da pista
+Amp = 0; %Amplitude da oscilação senoidal da pista
+freq = 0; %Frequência da amplitude senoidal da pista
 
 y_ext = Amp*sin(freq*(t));
 yp_ext = Amp*freq*cos(freq*(t));
@@ -93,7 +93,7 @@ w = [y_ext; yp_ext; g];
 % Sistema original sem controle
 sysnc = ss(A, E, C, D);
 [ync,t,xnc] = lsim(sysnc,w,t,x0);
-
+pzmap(sysnc)
 
 %% Sistema controlado com alocação de polos
 P = [-1.25+60.32i,-1.25-60.32i,-0.59-3.33i,-0.59+3.33i, -0.971775, -1];
@@ -497,32 +497,32 @@ ct = 102.2*10^3;
 
 
 %% Funções de transferência
-Dft = [0 0; 0 0];
-[num, den] = ss2tf(A,B,C,Dft, 2);
-numTT = num(1,:);
-sysTT = tf(numTT,den);
-
-%Script para projeto de PID pelo metodo ITAE -
-omega= 5;
-nump=1; denp=[0.26 1.26 1];
-t=0:0.1:6;
-Kd=1.75*omega*0.26-1.26;
-Kp=2.15*(omega^2)*0.26-1;
-Ki=0.26*(omega^3);
-numpid=[Kd Kp Ki]; denpid=[1 0];
-numc=conv(numpid,nump);
-denc=conv(denpid,denp);
-[numcmf,dencmf]=cloop(numc,denc,-1);
-figure;
-[yitae xitae]=step(numcmf,dencmf,t);
-plot(t, yitae); grid; gtext(’sem pr´e-compensador’); hold;
-%filtro;
-numfiltro=Ki;
-denfiltro=numcmf;
-[numfinal,denfinal]=series(numfiltro,denfiltro,numcmf,dencmf);
-[yitae xitae]=step(numfinal,denfinal,t);
-plot(t,yitae,’-.’);
-gtext(’com pr´e-compensador’);
-title(’Resposta a um degrau unit´ario com o PID ITAE’);
-xlabel(’t(s)’); ylabel(’y(t)’);
+% Dft = [0 0; 0 0];
+% [num, den] = ss2tf(A,B,C,Dft, 2);
+% numTT = num(1,:);
+% sysTT = tf(numTT,den);
+% 
+% %Script para projeto de PID pelo metodo ITAE -
+% omega= 5;
+% nump=1; denp=[0.26 1.26 1];
+% t=0:0.1:6;
+% Kd=1.75*omega*0.26-1.26;
+% Kp=2.15*(omega^2)*0.26-1;
+% Ki=0.26*(omega^3);
+% numpid=[Kd Kp Ki]; denpid=[1 0];
+% numc=conv(numpid,nump);
+% denc=conv(denpid,denp);
+% [numcmf,dencmf]=cloop(numc,denc,-1);
+% figure;
+% [yitae xitae]=step(numcmf,dencmf,t);
+% plot(t, yitae); grid; gtext(’sem pr´e-compensador’); hold;
+% %filtro;
+% numfiltro=Ki;
+% denfiltro=numcmf;
+% [numfinal,denfinal]=series(numfiltro,denfiltro,numcmf,dencmf);
+% [yitae xitae]=step(numfinal,denfinal,t);
+% plot(t,yitae,’-.’);
+% gtext(’com pr´e-compensador’);
+% title(’Resposta a um degrau unit´ario com o PID ITAE’);
+% xlabel(’t(s)’); ylabel(’y(t)’);
 
